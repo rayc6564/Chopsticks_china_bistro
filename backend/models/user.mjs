@@ -11,15 +11,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        match: [/.+@.+\..+/, 'Please use a valid email address'],
-    },
-    resetToken: String,
-    resetTokenExpiry: Date
 });
 
 // hashing the password before saving it to the database

@@ -7,69 +7,6 @@ import { validateRegister } from '../middlewares/validation.mjs';
 
 const router = express.Router();
 
-// reset password
-const resetPassword = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_USER
-    }
-});
-
-// Send password reset email
-router.post('/forgot-password', async (req, res) => {
-    const { email } = req.body;
-    try {
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-
-        const resetToken = crypto.randomBytes(32).toString('hex');
-        user.resetToken = resetToken;
-        user.resetTokenExpiry = Date.now() + 3600000; // 1 hour
-        await user.save();
-
-        const resetLink = `${req.protocol}://${req.get('host')}/auth/reset-password/${resetToken}`;
-        await transporter.sendMail({
-            to: email,
-            subject: 'Password Reset',
-            text: `Click this link to reset your password: ${resetLink}`,
-        });
-
-        res.json({ message: 'Password reset link sent to your email.' });
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to send reset email.' });
-    }
-});
-
-// Handle password reset
-router.post('/reset-password/:token', async (req, res) => {
-    const { token } = req.params;
-    const { password } = req.body;
-
-    try {
-        const user = await User.findOne({
-            resetToken: token,
-            resetTokenExpiry: { $gt: Date.now() },
-        });
-
-        if (!user) {
-            return res.status(400).json({ error: 'Invalid or expired token.' });
-        }
-
-        user.password = password;
-        user.resetToken = undefined;
-        user.resetTokenExpiry = undefined;
-        await user.save();
-
-        res.json({ message: 'Password has been reset successfully.' });
-    } catch (err) {
-        res.status(500).json({ error: 'Failed to reset password.' });
-    }
-});
-
-
 // register a new user
 router.post('/register', 
     validateRegister,
