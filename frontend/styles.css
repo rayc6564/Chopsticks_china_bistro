@@ -1,0 +1,11 @@
+body {
+    background-color: lightcyan;
+    text-align: center;
+    margin-top: 20%;
+}
+
+input, label {
+    margin: 10px;
+    display: flex;
+    justify-self: center;
+}
