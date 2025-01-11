@@ -38,6 +38,7 @@ app.use(session({
     }
 }));
 
+// this allow backend and frontend to communicate
 app.use(cors({
     // Allow requests from your frontend's port
     origin: 'http://localhost:3000',
