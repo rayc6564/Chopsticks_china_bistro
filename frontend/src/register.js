@@ -10,6 +10,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
+      // communicate with the backend
       const response = await axios.post('http://localhost:5000/auth/register', {
         username,
         password,
