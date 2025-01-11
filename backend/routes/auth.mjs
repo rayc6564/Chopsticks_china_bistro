@@ -2,7 +2,6 @@ import express from 'express';
 import passport from 'passport';
 import User from '../models/user.mjs';
 import { validationResult } from 'express-validator';
-import crypto from 'crypto';
 import { validateRegister } from '../middlewares/validation.mjs';
 
 const router = express.Router();

@@ -15,7 +15,7 @@ const minute = sec * 60;
 const day = minute * 24;
 
 // connect to mongodb
-mongoose.connect("mongodb://127.0.0.1:27018/login-demo")
+mongoose.connect("mongodb://127.0.0.1/login-demo")
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.log(`Fail to connect to MongoDB: ${err.message}`));
 
