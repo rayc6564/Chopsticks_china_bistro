@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import session from 'express-session';
 import authRoutes from './routes/auth.mjs';
 import './config/passport.mjs';
+import cors from 'cors';
 
 
 const app = express();
@@ -36,6 +37,13 @@ app.use(session({
         maxAge: day
     }
 }));
+
+app.use(cors({
+    // Allow requests from your frontend's port
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+    credentials: true,
+}))
 
 app.use(passport.initialize());
 app.use(passport.session());

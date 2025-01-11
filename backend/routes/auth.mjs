@@ -20,8 +20,11 @@ router.post('/register',
         }
 
         const { username, password, email } = request.body;
+
         try {
-            const newUser = new User({ username, password, email });
+            // created the things to save to database
+            const newUser = new User({ username, password });
+            // saves it to the database
             await newUser.save();
             response.send(`Register!!!: ${username}`);
         } catch (error) {
